@@ -31,6 +31,13 @@ public class WaterCalculatorServiceImpl implements WaterCalculatorService {
         return new CreateConsumptionResponseDto(consumptionId);
     }
 
+    /**
+     * This method maps the create consumption request body to a new Consumption
+     * entity to be saved on DB.
+     *
+     * @param createConsumptionRequestBodyDto Request body.
+     * @return Consumption mapped.
+     */
     private Consumption mapConsumption(CreateConsumptionRequestBodyDto createConsumptionRequestBodyDto) {
         LOGGER.info("[MAP CONSUMPTION] METHOD START");
 

@@ -5,6 +5,12 @@ import com.isladellago.watercalculator.dto.consumption.CreateConsumptionResponse
 
 public interface WaterCalculatorService {
 
-    CreateConsumptionResponseDto createConsumption(CreateConsumptionRequestBodyDto consumption);
+    /**
+     * This method saves a new Consumption from the given body info.
+     *
+     * @param consumptionRequestBodyDto Request body.
+     * @return Request response with the consumption id generated.
+     */
+    CreateConsumptionResponseDto createConsumption(CreateConsumptionRequestBodyDto consumptionRequestBodyDto);
 
 }
