@@ -2,6 +2,7 @@ package com.isladellago.watercalculator.controller;
 
 import com.isladellago.watercalculator.dto.bill.CreateBillRequestBodyDto;
 import com.isladellago.watercalculator.dto.bill.CreateBillRequestResponseDto;
+import com.isladellago.watercalculator.model.bill.Bill;
 import com.isladellago.watercalculator.service.BillService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -52,5 +53,21 @@ public final class BillControllerTest {
                 .thenThrow(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
 
         billController.createBill(new CreateBillRequestBodyDto());
+    }
+
+    @Test
+    public final void testGetBillByBillDateIsOk() {
+        final String billDate = "15/05/2021 - 15/07/2021";
+
+        when(billService.getBillByBillDate(any()))
+                .thenReturn(new Bill());
+
+        final ResponseEntity<Bill> response =
+                billController.getBillByBillDate(billDate);
+
+        Assert.assertNotNull(response);
+        Assert.assertNotNull(response.getBody());
+        Assert.assertTrue(response.getBody() instanceof Bill);
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }
