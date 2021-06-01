@@ -2,6 +2,7 @@ package com.isladellago.watercalculator.controller;
 
 import com.isladellago.watercalculator.dto.bill.CreateBillRequestBodyDto;
 import com.isladellago.watercalculator.dto.bill.CreateBillRequestResponseDto;
+import com.isladellago.watercalculator.model.bill.Bill;
 import com.isladellago.watercalculator.service.BillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,15 @@ public class BillController {
                 billService.createBill(createBillRequestBodyDto);
 
         return new ResponseEntity<>(createBillResponse, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/bill/bill-date/{bill-date}")
+    public final ResponseEntity<Bill> getBillByBillDate(@PathVariable("bill-date") String billDate) {
+        LOGGER.info("[GET BILL BY DATE CONTROLLER] REQUEST RECEIVED");
+
+        final Bill bill = billService.getBillByBillDate(billDate);
+
+        return new ResponseEntity<>(bill, HttpStatus.OK);
     }
 
     @Autowired

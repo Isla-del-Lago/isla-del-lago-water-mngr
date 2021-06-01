@@ -17,7 +17,7 @@ public final class Utilities {
 
     public static <T> T validateOptionalResponse(String methodFormatName, String message, Optional<T> optional) {
         if (!optional.isPresent()) {
-            LOGGER.error(String.format("%s %s"), methodFormatName, message);
+            LOGGER.error(String.format("%s %s", methodFormatName, message));
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 

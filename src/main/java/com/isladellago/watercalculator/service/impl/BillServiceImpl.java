@@ -6,9 +6,12 @@ import com.isladellago.watercalculator.model.bill.Bill;
 import com.isladellago.watercalculator.model.bill.BillRepository;
 import com.isladellago.watercalculator.service.BillService;
 import com.isladellago.watercalculator.utils.JacksonUtils;
+import com.isladellago.watercalculator.utils.Utilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Optional;
 
 public class BillServiceImpl implements BillService {
 
@@ -28,6 +31,25 @@ public class BillServiceImpl implements BillService {
         LOGGER.info(methodFormatName + " METHOD END, BILL DATE: {}", billDate);
 
         return new CreateBillRequestResponseDto(billDate);
+    }
+
+    @Override
+    public Bill getBillByBillDate(String billDate) {
+        final String methodFormatName = "[GET BILL BY BILL DATE]";
+        LOGGER.info(methodFormatName + " METHOD START, BILL DATE: {}",
+                billDate);
+
+        final Optional<Bill> optionalBill = billRepository.findById(billDate);
+
+        final String errorMessage =
+                String.format("BILL WITH BILL DATE: %s NOT FOUND", billDate);
+        final Bill bill =
+                Utilities.validateOptionalResponse(methodFormatName, errorMessage, optionalBill);
+
+        LOGGER.info(methodFormatName + " METHOD END, BILL DETAIL: {}",
+                JacksonUtils.getJsonStringFromObject(bill));
+
+        return bill;
     }
 
     /**

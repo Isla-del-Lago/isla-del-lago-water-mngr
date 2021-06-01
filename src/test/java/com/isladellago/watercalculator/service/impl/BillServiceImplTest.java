@@ -10,6 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.junit.Before;
 import org.mockito.MockitoAnnotations;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -45,5 +48,31 @@ public final class BillServiceImplTest {
         Assert.assertNotNull(response);
         Assert.assertEquals(billDate, response.getBillDate());
         verify(billRepository, times(METHOD_CALL_ONE_TIME)).save(any());
+    }
+
+    @Test
+    public void testGetBillByBillDateIsOk() {
+        final Bill bill = new Bill();
+        final String billDate = "15/05/2021 - 15/07/2021";
+
+        when(billRepository.findById(any()))
+                .thenReturn(Optional.of(bill));
+
+        final Bill billResponse =
+                billService.getBillByBillDate(billDate);
+
+        Assert.assertNotNull(billResponse);
+        verify(billRepository, times(1))
+                .findById(any());
+    }
+
+    @Test(expected = ResponseStatusException.class)
+    public void testGetBillByBillDateIsNotOk() {
+        final String billDate = "15/05/2021 - 15/07/2021";
+
+        when(billRepository.findById(any()))
+                .thenReturn(Optional.empty());
+
+        billService.getBillByBillDate(billDate);
     }
 }
