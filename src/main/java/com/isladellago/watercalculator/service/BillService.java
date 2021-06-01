@@ -2,6 +2,7 @@ package com.isladellago.watercalculator.service;
 
 import com.isladellago.watercalculator.dto.bill.CreateBillRequestBodyDto;
 import com.isladellago.watercalculator.dto.bill.CreateBillRequestResponseDto;
+import com.isladellago.watercalculator.model.bill.Bill;
 
 public interface BillService {
 
@@ -13,4 +14,11 @@ public interface BillService {
      */
     CreateBillRequestResponseDto createBill(CreateBillRequestBodyDto createBillRequestBodyDto);
 
+    /**
+     * This method gets a bill details from a given bill date.
+     *
+     * @param billDate Bill date the bill will be searched with.
+     * @return Bill detail.
+     */
+    Bill getBillByBillDate(String billDate);
 }
