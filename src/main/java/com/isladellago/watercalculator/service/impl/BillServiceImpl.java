@@ -67,6 +67,16 @@ public class BillServiceImpl implements BillService {
         return bills;
     }
 
+    @Override
+    public void deleteBillByBillDate(String billDate) {
+        final String methodFormatName = "[DELETE BILL BY BILL DATE]";
+        LOGGER.info(methodFormatName + " METHOD START, BILL DATE: {}", billDate);
+
+        billRepository.deleteById(billDate);
+
+        LOGGER.info(methodFormatName + " METHOD END");
+    }
+
     /**
      * Method to create a new bill entity to be saved on database.
      *

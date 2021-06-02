@@ -56,6 +56,16 @@ public class BillController {
         return new ResponseEntity<>(bills, HttpStatus.OK);
     }
 
+    @DeleteMapping("/bill/bill-date/{bill-date}")
+    public final ResponseEntity<Void> deleteBillByBillDate(
+            @PathVariable("bill-date") String billDate) {
+        LOGGER.info("[DELETE BILL BY BILL DATE CONTOLLER] REQUEST RECEIVED");
+
+        billService.deleteBillByBillDate(billDate);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @Autowired
     public void setBillService(BillService billService) {
         this.billService = billService;
