@@ -31,4 +31,11 @@ public interface BillService {
      * @return List with bills.
      */
     List<Bill> getAllBills();
+
+    /**
+     * This method deletes a bill with the given bill date.
+     *
+     * @param billDate Bill date to delete bill.
+     */
+    void deleteBillByBillDate(String billDate);
 }

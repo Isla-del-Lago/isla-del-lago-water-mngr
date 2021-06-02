@@ -94,6 +94,16 @@ public final class BillServiceImplTest {
         Assert.assertEquals(1, response.size());
         verify(billRepository, times(1))
                 .findAll();
+    }
 
+    @Test
+    public final void testDeleteBillByBillDateIsOK() {
+        doNothing().when(billRepository)
+                .deleteById(any());
+
+        billService.deleteBillByBillDate("15/05/2021 - 15/07/2021");
+
+        verify(billRepository, times(1))
+                .deleteById(any());
     }
 }
