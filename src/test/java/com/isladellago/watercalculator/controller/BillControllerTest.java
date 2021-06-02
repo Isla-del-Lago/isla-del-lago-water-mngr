@@ -91,4 +91,19 @@ public final class BillControllerTest {
         verify(billService, times(1))
                 .getAllBills();
     }
+
+    @Test
+    public final void testDeleteBillByBillDateIsOk() {
+        final String billDate = "15/05/2021 - 15/07/2021";
+        doNothing().when(billService)
+                .deleteBillByBillDate(billDate);
+
+        final ResponseEntity<Void> response =
+                billController.deleteBillByBillDate(billDate);
+
+        Assert.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        Assert.assertNull(response.getBody());
+        verify(billService, times(1))
+                .deleteBillByBillDate(any());
+    }
 }
