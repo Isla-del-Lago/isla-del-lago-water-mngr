@@ -4,6 +4,8 @@ import com.isladellago.watercalculator.dto.bill.CreateBillRequestBodyDto;
 import com.isladellago.watercalculator.dto.bill.CreateBillRequestResponseDto;
 import com.isladellago.watercalculator.model.bill.Bill;
 
+import java.util.List;
+
 public interface BillService {
 
     /**
@@ -21,4 +23,12 @@ public interface BillService {
      * @return Bill detail.
      */
     Bill getBillByBillDate(String billDate);
+
+    /**
+     * This method returns all bills created on isla_deL_lago
+     * database.
+     *
+     * @return List with bills.
+     */
+    List<Bill> getAllBills();
 }

@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -74,5 +76,24 @@ public final class BillServiceImplTest {
                 .thenReturn(Optional.empty());
 
         billService.getBillByBillDate(billDate);
+    }
+
+    @Test
+    public void testGetBillsIsOk() {
+        final Bill bill = new Bill();
+        final List<Bill> bills = new ArrayList<>();
+        bills.add(bill);
+
+        when(billRepository.findAll())
+                .thenReturn(bills);
+
+        final List<Bill> response =
+                billService.getAllBills();
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals(1, response.size());
+        verify(billRepository, times(1))
+                .findAll();
+
     }
 }
