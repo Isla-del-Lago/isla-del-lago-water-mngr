@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * This class is responsible to hold all paths to handle requests
  * over bill entity.
@@ -42,6 +44,16 @@ public class BillController {
         final Bill bill = billService.getBillByBillDate(billDate);
 
         return new ResponseEntity<>(bill, HttpStatus.OK);
+    }
+
+    @GetMapping("/bill")
+    public final ResponseEntity<List<Bill>> getAllBills() {
+        LOGGER.info("[GET ALL BILLS CONTROLLER] REQUEST RECEIVED");
+
+        final List<Bill> bills =
+                billService.getAllBills();
+
+        return new ResponseEntity<>(bills, HttpStatus.OK);
     }
 
     @Autowired

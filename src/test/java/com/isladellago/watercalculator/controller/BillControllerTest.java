@@ -14,8 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public final class BillControllerTest {
 
@@ -69,5 +72,23 @@ public final class BillControllerTest {
         Assert.assertNotNull(response.getBody());
         Assert.assertTrue(response.getBody() instanceof Bill);
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public final void testGetAllBillsIsOk() {
+        final List<Bill> bills = new ArrayList<>();
+
+        when(billService.getAllBills())
+                .thenReturn(bills);
+
+        final ResponseEntity<List<Bill>> response =
+                billController.getAllBills();
+
+        Assert.assertNotNull(response);
+        Assert.assertNotNull(response.getBody());
+        Assert.assertEquals(0, response.getBody().size());
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(billService, times(1))
+                .getAllBills();
     }
 }

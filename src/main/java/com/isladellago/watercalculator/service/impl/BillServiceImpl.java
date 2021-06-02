@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 public class BillServiceImpl implements BillService {
@@ -50,6 +51,20 @@ public class BillServiceImpl implements BillService {
                 JacksonUtils.getJsonStringFromObject(bill));
 
         return bill;
+    }
+
+    @Override
+    public List<Bill> getAllBills() {
+        final String methodFormatName = "[GET ALL BILLS]";
+        LOGGER.info(methodFormatName + " METHOD START");
+
+        final List<Bill> bills =
+                billRepository.findAll();
+
+        LOGGER.info(methodFormatName + " METHOD END, BILLS: {}",
+                JacksonUtils.getJsonStringFromObject(bills));
+
+        return bills;
     }
 
     /**
