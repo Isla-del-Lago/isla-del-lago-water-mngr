@@ -42,7 +42,8 @@ public class BillServiceImpl implements BillService {
         LOGGER.info(methodFormatName + " METHOD START, BILL DATE: {}",
                 billDate);
 
-        final Optional<Bill> optionalBill = billRepository.findByBillDate(billDate);
+        final Optional<Bill> optionalBill =
+                billRepository.findByBillDate(billDate);
 
         final String errorMessage =
                 String.format("BILL WITH BILL DATE: %s NOT FOUND", billDate);

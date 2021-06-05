@@ -72,7 +72,7 @@ public final class BillServiceImplTest {
     public void testGetBillByBillDateIsNotOk() {
         final String billDate = "15/05/2021 - 15/07/2021";
 
-        when(billRepository.findById(any()))
+        when(billRepository.findByBillDate(any()))
                 .thenReturn(Optional.empty());
 
         billService.getBillByBillDate(billDate);

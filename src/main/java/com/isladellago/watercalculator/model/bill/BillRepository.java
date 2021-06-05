@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface BillRepository extends JpaRepository<Bill, Integer> {
 
-    Optional<Bill> findByBillDate(String billDate);
-
     void deleteByBillDate(String billDate);
+
+    Optional<Bill> findByBillDate(String billDate);
 }
