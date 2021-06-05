@@ -37,8 +37,8 @@ public class BillController {
         return new ResponseEntity<>(createBillResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/bill/bill-date/{bill-date}")
-    public final ResponseEntity<Bill> getBillByBillDate(@PathVariable("bill-date") String billDate) {
+    @GetMapping("/bill/bill-date")
+    public final ResponseEntity<Bill> getBillByBillDate(@RequestParam("billDate") String billDate) {
         LOGGER.info("[GET BILL BY DATE CONTROLLER] REQUEST RECEIVED");
 
         final Bill bill = billService.getBillByBillDate(billDate);
