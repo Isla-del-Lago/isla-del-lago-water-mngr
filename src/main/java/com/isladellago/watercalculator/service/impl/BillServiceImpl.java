@@ -42,7 +42,8 @@ public class BillServiceImpl implements BillService {
         LOGGER.info(methodFormatName + " METHOD START, BILL DATE: {}",
                 billDate);
 
-        final Optional<Bill> optionalBill = billRepository.findById(billDate);
+        final Optional<Bill> optionalBill =
+                billRepository.findByBillDate(billDate);
 
         final String errorMessage =
                 String.format("BILL WITH BILL DATE: %s NOT FOUND", billDate);
@@ -74,7 +75,7 @@ public class BillServiceImpl implements BillService {
         final String methodFormatName = "[DELETE BILL BY BILL DATE]";
         LOGGER.info(methodFormatName + " METHOD START, BILL DATE: {}", billDate);
 
-        billRepository.deleteById(billDate);
+        billRepository.deleteByBillDate(billDate);
 
         LOGGER.info(methodFormatName + " METHOD END");
     }

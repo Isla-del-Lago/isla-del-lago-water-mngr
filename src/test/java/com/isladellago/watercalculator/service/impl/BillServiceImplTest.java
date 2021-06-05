@@ -57,7 +57,7 @@ public final class BillServiceImplTest {
         final Bill bill = new Bill();
         final String billDate = "15/05/2021 - 15/07/2021";
 
-        when(billRepository.findById(any()))
+        when(billRepository.findByBillDate(any()))
                 .thenReturn(Optional.of(bill));
 
         final Bill billResponse =
@@ -65,14 +65,14 @@ public final class BillServiceImplTest {
 
         Assert.assertNotNull(billResponse);
         verify(billRepository, times(1))
-                .findById(any());
+                .findByBillDate(any());
     }
 
     @Test(expected = ResponseStatusException.class)
     public void testGetBillByBillDateIsNotOk() {
         final String billDate = "15/05/2021 - 15/07/2021";
 
-        when(billRepository.findById(any()))
+        when(billRepository.findByBillDate(any()))
                 .thenReturn(Optional.empty());
 
         billService.getBillByBillDate(billDate);
@@ -99,11 +99,11 @@ public final class BillServiceImplTest {
     @Test
     public final void testDeleteBillByBillDateIsOK() {
         doNothing().when(billRepository)
-                .deleteById(any());
+                .deleteByBillDate(any());
 
         billService.deleteBillByBillDate("15/05/2021 - 15/07/2021");
 
         verify(billRepository, times(1))
-                .deleteById(any());
+                .deleteByBillDate(any());
     }
 }

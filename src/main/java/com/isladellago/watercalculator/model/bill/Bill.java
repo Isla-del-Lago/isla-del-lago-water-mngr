@@ -12,6 +12,10 @@ import java.util.Date;
 public final class Bill {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bill_id")
+    private Integer billId;
+
     @Column(name = "bill_date")
     private String billDate;
 
