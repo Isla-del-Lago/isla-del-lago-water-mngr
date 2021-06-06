@@ -51,9 +51,9 @@ public class ConsumptionController {
         return new ResponseEntity<>(consumption, HttpStatus.OK);
     }
 
-    @GetMapping("/consumption/bill-date/{bill-date}")
+    @GetMapping("/consumption/bill-date")
     public final ResponseEntity<List<Consumption>> getConsumptionsByBillDate(
-            @PathVariable("bill-date") String billDate) {
+            @RequestParam("billDate") String billDate) {
         LOGGER.info("[GET CONSUMPTIONS BY BILL DATE CONTROLLER] REQUEST RECEIVED");
 
         final List<Consumption> consumptions = consumptionService.getConsumptionsByBillDate(billDate);
@@ -61,9 +61,9 @@ public class ConsumptionController {
         return new ResponseEntity<>(consumptions, HttpStatus.OK);
     }
 
-    @GetMapping("/consumption/apt-name/{apt-name}")
+    @GetMapping("/consumption/apt-name")
     public final ResponseEntity<List<Consumption>> getConsumptionsByApartmentName(
-            @PathVariable("apt-name") String apartmentName) {
+            @RequestParam("aptName") String apartmentName) {
         LOGGER.info("[GET CONSUMPTIONS BY APARTMENT NAME CONTROLLER] REQUEST RECEIVED");
 
         final List<Consumption> consumptions =
