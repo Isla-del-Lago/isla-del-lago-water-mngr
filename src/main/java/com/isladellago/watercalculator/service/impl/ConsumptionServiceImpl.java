@@ -111,6 +111,29 @@ public class ConsumptionServiceImpl implements ConsumptionService {
         LOGGER.info(methodFormatName + " METHOD END");
     }
 
+    @Override
+    public Consumption getPreviousConsumption(Consumption currentConsumption) {
+        LOGGER.info("[GET PREVIOUS CONSUMPTION] METHOD START, CURRENT CONSUMPTION: {}",
+                JacksonUtils.getJsonStringFromObject(currentConsumption));
+
+        final List<Consumption> consumptions =
+                consumptionRepository
+                        .findAllByApartmentName(currentConsumption.getApartmentName()).get();
+
+        final Consumption previousConsumption =
+                consumptions
+                        .stream()
+                        .filter(consumption -> consumption
+                                .getConsumptionId()
+                                .equals(currentConsumption.getConsumptionId() - 10))
+                        .findFirst().get();
+
+        LOGGER.info("[GET PREVIOUS CONSUMPTION] METHOD END, PREVIOUS CONSUMPTION: {}",
+                JacksonUtils.getJsonStringFromObject(previousConsumption));
+
+        return previousConsumption;
+    }
+
     /**
      * This method maps the create consumption request body to a new Consumption
      * entity to be saved on DB.

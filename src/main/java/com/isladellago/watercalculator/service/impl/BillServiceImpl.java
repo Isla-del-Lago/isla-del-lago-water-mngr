@@ -80,6 +80,20 @@ public class BillServiceImpl implements BillService {
         LOGGER.info(methodFormatName + " METHOD END");
     }
 
+    @Override
+    public Bill getPreviousBill(Bill currentBill) {
+        LOGGER.info("[GET PREVIOUS BILL] METHOD START, CURRENT BILL: {}",
+                JacksonUtils.getJsonStringFromObject(currentBill));
+
+        final Bill previousBill =
+                billRepository.getById(currentBill.getBillId());
+
+        LOGGER.info("[GET PREVIOUS BILL] METHOD END, PREVIOUS BILL: {}",
+                JacksonUtils.getJsonStringFromObject(previousBill));
+
+        return previousBill;
+    }
+
     /**
      * Method to create a new bill entity to be saved on database.
      *

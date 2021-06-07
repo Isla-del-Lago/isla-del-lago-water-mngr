@@ -52,6 +52,14 @@ public final class Bill {
     @Column(name = "creation_date")
     private Date creationDate = new Date();
 
+    public Integer getBillId() {
+        return billId;
+    }
+
+    public void setBillId(Integer billId) {
+        this.billId = billId;
+    }
+
     public String getBillDate() {
         return billDate;
     }
