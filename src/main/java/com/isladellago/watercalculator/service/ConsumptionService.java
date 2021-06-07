@@ -56,4 +56,13 @@ public interface ConsumptionService {
      * @param consumptionId Consumption id.
      */
     void deleteConsumptionById(Integer consumptionId);
+
+    /**
+     * This method gets a current consumption from the given
+     * consumption.
+     *
+     * @param currentConsumption
+     * @return
+     */
+    Consumption getPreviousConsumption(Consumption currentConsumption);
 }

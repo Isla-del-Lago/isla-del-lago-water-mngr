@@ -38,4 +38,13 @@ public interface BillService {
      * @param billDate Bill date to delete bill.
      */
     void deleteBillByBillDate(String billDate);
+
+    /**
+     * This method gets a prvious bill from the given one.
+     * It's calculated with the id's where the bills were created.
+     *
+     * @param currentBill
+     * @return
+     */
+    Bill getPreviousBill(Bill currentBill);
 }
