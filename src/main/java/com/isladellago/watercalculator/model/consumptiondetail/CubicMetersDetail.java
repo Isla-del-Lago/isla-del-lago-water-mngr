@@ -1,5 +1,7 @@
 package com.isladellago.watercalculator.model.consumptiondetail;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -23,6 +25,7 @@ public final class CubicMetersDetail {
     @Column(name = "total_m3_consumed")
     private double totalM3Consumed;
 
+    @JsonIgnore
     @OneToOne
     @MapsId
     @JoinColumn(name = "consumption_id")

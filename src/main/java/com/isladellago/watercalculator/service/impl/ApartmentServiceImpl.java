@@ -1,6 +1,6 @@
 package com.isladellago.watercalculator.service.impl;
 
-import com.isladellago.watercalculator.dto.apartment.*;
+import com.isladellago.watercalculator.dto.consumptiondetail.ConsumptionDetailResponse;
 import com.isladellago.watercalculator.model.bill.Bill;
 import com.isladellago.watercalculator.model.consumption.*;
 import com.isladellago.watercalculator.model.consumptiondetail.*;
@@ -8,6 +8,7 @@ import com.isladellago.watercalculator.service.ApartmentService;
 import com.isladellago.watercalculator.service.BillService;
 import com.isladellago.watercalculator.service.ConsumptionService;
 import com.isladellago.watercalculator.utils.JacksonUtils;
+import com.isladellago.watercalculator.utils.Utilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ApartmentServiceImpl implements ApartmentService {
+
+    private static final String[] APT_NAMES = {
+            "Apto 201", "Apto 202", "Apto 301", "Apto 302", "Apto 401",
+            "Apto 402", "Apto 501", "Apto 502", "Local 1", "Local 2"
+    };
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApartmentServiceImpl.class);
     private static final double NUMBER_OF_APARTMENTS = 10.0;
@@ -47,6 +52,111 @@ public class ApartmentServiceImpl implements ApartmentService {
         calculateAndSaveConsumptionDetails(consumptions, bill);
 
         LOGGER.info("[SAVE CONSUMPTION DETAILS] METHOD END");
+    }
+
+    @Override
+    public ConsumptionDetailResponse getConsumptionDetailFromAptNameAndBillDate(String aptName, String billDate) {
+        final String methodFormatName = "[GET CONSUMPTION DETAIL FROM APT NAME AND BILL DATE]";
+        LOGGER.info(methodFormatName + " METHOD START, APT NAME: {}, BILL DATE: {}",
+                aptName, billDate);
+
+        final Optional<ConsumptionDetail> optionalConsumptionDetail =
+                consumptionDetailRepository.findByAptNameAndBillDate(aptName, billDate);
+
+        final String errorMessage =
+                String.format("CONSUMPTION DETAIL NOT FOUND WITH APT NAME: %s, BILL DATE: %s", aptName, billDate);
+        final ConsumptionDetail consumptionDetail =
+                Utilities.validateOptionalResponse(methodFormatName, errorMessage, optionalConsumptionDetail);
+
+        final ConsumptionDetailResponse consumptionDetailResponse =
+                mapConsumptionDetailResponse(consumptionDetail);
+
+        LOGGER.info(methodFormatName + " METHOD END, CONSUMPTION DETAIL: {}",
+                JacksonUtils.getJsonStringFromObject(consumptionDetailResponse));
+
+        return consumptionDetailResponse;
+    }
+
+    @Override
+    public List<ConsumptionDetailResponse> getAllConsumptionDetails() {
+        LOGGER.info("[GET ALL CONSUMPTION DETAILS] METHOD START");
+
+        final List<ConsumptionDetailResponse> consumptionDetailResponses =
+                new ArrayList<>();
+
+        Arrays.asList(APT_NAMES).stream().forEach(aptName -> {
+            final List<ConsumptionDetailResponse> consumptionDetailsFromAptName =
+                    getAllConsumptionDetailsFromAptName(aptName);
+
+            consumptionDetailResponses.addAll(consumptionDetailsFromAptName);
+        });
+
+        LOGGER.info("[GET ALL CONSUMPTION DETAILS] METHOD END, CONSUMPTION DETAILS: {}",
+                JacksonUtils.getJsonStringFromObject(consumptionDetailResponses));
+
+        return consumptionDetailResponses;
+    }
+
+    @Override
+    public List<ConsumptionDetailResponse> getAllConsumptionDetailsFromBillDate(String billDate) {
+        LOGGER.info("[GET ALL CONSUMPTIONS DETAILS FROM BILL DATE] METHOD START, BILL DATE: {}",
+                billDate);
+
+        final List<ConsumptionDetailResponse> consumptionDetails =
+                consumptionDetailRepository
+                        .findAllByBillDate(billDate)
+                        .stream()
+                        .map(this::mapConsumptionDetailResponse)
+                        .collect(Collectors.toList());
+
+        LOGGER.info("[GET ALL CONSUMPTIONS DETAILS FROM BILL DATE] METHOD END, CONSUMPTION DETAILS: {}",
+                JacksonUtils.getJsonStringFromObject(consumptionDetails));
+
+        return consumptionDetails;
+    }
+
+    @Override
+    public List<ConsumptionDetailResponse> getAllConsumptionDetailsFromAptName(String aptName) {
+        LOGGER.info("GET ALL CONSUMPTIONS DETAILS FROM APT NAME] METHOD START, APT NAME: {}",
+                aptName);
+
+        final List<ConsumptionDetailResponse> consumptionDetails =
+                consumptionDetailRepository
+                        .findAllByAptName(aptName)
+                        .stream()
+                        .map(this::mapConsumptionDetailResponse)
+                        .collect(Collectors.toList());
+
+        LOGGER.info("GET ALL CONSUMPTIONS DETAILS FROM APT NAME] METHOD END, CONSUMPTION DETAILS: {}",
+                consumptionDetails);
+
+        return consumptionDetails;
+    }
+
+    /**
+     * This method maps a consumption detail response from the
+     * given consumption detail.
+     *
+     * @param consumptionDetail Consumption detail.
+     * @return Consumption detail response.
+     */
+    private ConsumptionDetailResponse mapConsumptionDetailResponse(ConsumptionDetail consumptionDetail) {
+        final ConsumptionDetailResponse consumptionDetailResponse =
+                new ConsumptionDetailResponse();
+
+        final int consumptionId = consumptionDetail.getConsumptionId();
+
+        final String aptName =
+                consumptionDetailRepository.getApartmentNameFromConsumptionId(consumptionId);
+
+        final String billDate =
+                consumptionDetailRepository.getBillDateFromConsumptionId(consumptionId);
+
+        consumptionDetailResponse.setApartmentName(aptName);
+        consumptionDetailResponse.setBillDate(billDate);
+        consumptionDetailResponse.setConsumptionDetail(consumptionDetail);
+
+        return consumptionDetailResponse;
     }
 
     /**
@@ -164,7 +274,7 @@ public class ApartmentServiceImpl implements ApartmentService {
                 cubicMetersDetail.getM3ResidentialBasic();
         final double m3ResidentialBasicSuperior =
                 cubicMetersDetail.getM3ResidentialBasicSuperior();
-        
+
         final AcueductoDetail acueductoDetail =
                 getAcueductoDetail(m3ResidentialBasic, m3ResidentialBasicSuperior, bill, consumptionId);
         acueductoDetail.setConsumptionDetail(consumptionDetail);
@@ -339,5 +449,4 @@ public class ApartmentServiceImpl implements ApartmentService {
     public void setConsumptionDetailRepository(ConsumptionDetailRepository consumptionDetailRepository) {
         this.consumptionDetailRepository = consumptionDetailRepository;
     }
-
 }

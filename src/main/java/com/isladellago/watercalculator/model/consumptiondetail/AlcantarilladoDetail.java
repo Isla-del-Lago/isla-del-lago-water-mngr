@@ -1,5 +1,7 @@
 package com.isladellago.watercalculator.model.consumptiondetail;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -22,6 +24,7 @@ public final class AlcantarilladoDetail {
     @Column(name = "residential_basic_superior_value")
     private double residentialBasicSuperiorValue;
 
+    @JsonIgnore
     @OneToOne
     @MapsId
     @JoinColumn(name = "consumption_id")
