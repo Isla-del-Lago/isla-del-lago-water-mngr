@@ -2,7 +2,7 @@ package com.isladellago.watercalculator.service.impl;
 
 import com.isladellago.watercalculator.dto.consumptiondetail.ConsumptionDetailResponse;
 import com.isladellago.watercalculator.model.bill.Bill;
-import com.isladellago.watercalculator.model.consumption.*;
+import com.isladellago.watercalculator.model.consumption.Consumption;
 import com.isladellago.watercalculator.model.consumptiondetail.*;
 import com.isladellago.watercalculator.service.ApartmentService;
 import com.isladellago.watercalculator.service.BillService;

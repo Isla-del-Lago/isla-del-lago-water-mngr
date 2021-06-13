@@ -5,10 +5,10 @@ import com.isladellago.watercalculator.dto.bill.CreateBillRequestResponseDto;
 import com.isladellago.watercalculator.model.bill.Bill;
 import com.isladellago.watercalculator.model.bill.BillRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.junit.Before;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 

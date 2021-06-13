@@ -1,7 +1,5 @@
 package com.isladellago.watercalculator.dto.consumption;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Class responsible for map the create consumption request response.
  */
