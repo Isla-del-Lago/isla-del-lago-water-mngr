@@ -49,7 +49,7 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 
     @Override
     public Consumption getConsumptionById(Integer id) {
-        final String methodFormatName = "[GET CONSUMPTION BY ID]";
+        final var methodFormatName = "[GET CONSUMPTION BY ID]";
         LOGGER.info(methodFormatName + " METHOD START, CONSUMPTION ID: {}", id);
 
         final Optional<Consumption> consumptionOptional = consumptionRepository.findById(id);
@@ -84,7 +84,7 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 
     @Override
     public List<Consumption> getConsumptionsByApartmentName(String apartmentName) {
-        final String methodFormatName = "[GET CONSUMPTIONS BY APARTMENT NAME]";
+        final var methodFormatName = "[GET CONSUMPTIONS BY APARTMENT NAME]";
         LOGGER.info(methodFormatName + " METHOD START, APARTMENT NAME: {}", apartmentName);
 
         final Optional<List<Consumption>> optionalConsumptionList =

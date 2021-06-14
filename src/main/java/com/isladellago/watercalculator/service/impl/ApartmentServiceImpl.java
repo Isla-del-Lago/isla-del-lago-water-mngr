@@ -215,9 +215,9 @@ public class ApartmentServiceImpl implements ApartmentService {
             final var currentConsumption = entry.getKey();
             final var previousConsumption = entry.getValue();
 
-            final double previousMeterValue =
+            final var previousMeterValue =
                     getDoubleValueFromMeterValue(previousConsumption.getMeterValue());
-            final double currentMeterValue =
+            final var currentMeterValue =
                     getDoubleValueFromMeterValue(currentConsumption.getMeterValue());
 
             totalDifference += (currentMeterValue - previousMeterValue);
@@ -411,9 +411,9 @@ public class ApartmentServiceImpl implements ApartmentService {
                                                   double totalMeterValues) {
         LOGGER.info("[CALCULATE CONSUMPTION PERCENTAGE] METHOD START");
 
-        final double previousMeterValue =
+        final var previousMeterValue =
                 getDoubleValueFromMeterValue(previousConsumption.getMeterValue());
-        final double currentMeterValue =
+        final var currentMeterValue =
                 getDoubleValueFromMeterValue(currentConsumption.getMeterValue());
 
         final double percentage =

@@ -19,8 +19,8 @@ public class HealthController {
      */
     @GetMapping("/health")
     public final ResponseEntity<String> health() {
-        final String healthMessageBody = "Is healthy";
-        return new ResponseEntity(healthMessageBody, HttpStatus.OK);
+        final var healthMessageBody = "Is healthy";
+        return new ResponseEntity<>(healthMessageBody, HttpStatus.OK);
     }
 
 }
