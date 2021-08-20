@@ -46,7 +46,7 @@ public class ConsumptionController {
     public final ResponseEntity<Consumption> getConsumptionById(@PathVariable("id") Integer id) {
         LOGGER.info("[GET CONSUMPTION BY ID CONTROLLER;] REQUEST RECEIVED");
 
-        final Consumption consumption = consumptionService.getConsumptionById(id);
+        final var consumption = consumptionService.getConsumptionById(id);
 
         return new ResponseEntity<>(consumption, HttpStatus.OK);
     }

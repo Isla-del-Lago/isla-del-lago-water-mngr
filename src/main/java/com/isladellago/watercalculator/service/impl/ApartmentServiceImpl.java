@@ -2,7 +2,7 @@ package com.isladellago.watercalculator.service.impl;
 
 import com.isladellago.watercalculator.dto.consumptiondetail.ConsumptionDetailResponse;
 import com.isladellago.watercalculator.model.bill.Bill;
-import com.isladellago.watercalculator.model.consumption.*;
+import com.isladellago.watercalculator.model.consumption.Consumption;
 import com.isladellago.watercalculator.model.consumptiondetail.*;
 import com.isladellago.watercalculator.service.ApartmentService;
 import com.isladellago.watercalculator.service.BillService;
@@ -39,7 +39,7 @@ public class ApartmentServiceImpl implements ApartmentService {
         LOGGER.info("[SAVE CONSUMPTION DETAILS] METHOD START, BILL DATE: {}",
                 billDate);
 
-        final Bill bill = billService.getBillByBillDate(billDate);
+        final var bill = billService.getBillByBillDate(billDate);
         final List<Consumption> consumptions =
                 consumptionService.getConsumptionsByBillDate(billDate);
 
@@ -56,19 +56,19 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     public ConsumptionDetailResponse getConsumptionDetailFromAptNameAndBillDate(String aptName, String billDate) {
-        final String methodFormatName = "[GET CONSUMPTION DETAIL FROM APT NAME AND BILL DATE]";
+        final var methodFormatName = "[GET CONSUMPTION DETAIL FROM APT NAME AND BILL DATE]";
         LOGGER.info(methodFormatName + " METHOD START, APT NAME: {}, BILL DATE: {}",
                 aptName, billDate);
 
         final Optional<ConsumptionDetail> optionalConsumptionDetail =
                 consumptionDetailRepository.findByAptNameAndBillDate(aptName, billDate);
 
-        final String errorMessage =
+        final var errorMessage =
                 String.format("CONSUMPTION DETAIL NOT FOUND WITH APT NAME: %s, BILL DATE: %s", aptName, billDate);
-        final ConsumptionDetail consumptionDetail =
+        final var consumptionDetail =
                 Utilities.validateOptionalResponse(methodFormatName, errorMessage, optionalConsumptionDetail);
 
-        final ConsumptionDetailResponse consumptionDetailResponse =
+        final var consumptionDetailResponse =
                 mapConsumptionDetailResponse(consumptionDetail);
 
         LOGGER.info(methodFormatName + " METHOD END, CONSUMPTION DETAIL: {}",
@@ -141,15 +141,15 @@ public class ApartmentServiceImpl implements ApartmentService {
      * @return Consumption detail response.
      */
     private ConsumptionDetailResponse mapConsumptionDetailResponse(ConsumptionDetail consumptionDetail) {
-        final ConsumptionDetailResponse consumptionDetailResponse =
+        final var consumptionDetailResponse =
                 new ConsumptionDetailResponse();
 
         final int consumptionId = consumptionDetail.getConsumptionId();
 
-        final String aptName =
+        final var aptName =
                 consumptionDetailRepository.getApartmentNameFromConsumptionId(consumptionId);
 
-        final String billDate =
+        final var billDate =
                 consumptionDetailRepository.getBillDateFromConsumptionId(consumptionId);
 
         consumptionDetailResponse.setApartmentName(aptName);
@@ -177,16 +177,16 @@ public class ApartmentServiceImpl implements ApartmentService {
                 getTotalDifferenceMeterValues(previousAndCurrentConsumptions);
 
         for (Map.Entry<Consumption, Consumption> entry : previousAndCurrentConsumptions.entrySet()) {
-            final Consumption currentConsumption = entry.getKey();
-            final Consumption previousConsumption = entry.getValue();
+            final var currentConsumption = entry.getKey();
+            final var previousConsumption = entry.getValue();
 
-            final String apartmentName = currentConsumption.getApartmentName();
+            final var apartmentName = currentConsumption.getApartmentName();
             LOGGER.info("[CALCULATE APARTMENT DETAILS START] APARTMENT NAME: {}", apartmentName);
 
             final double consumptionPercentage =
                     calculateConsumptionPercentage(currentConsumption, previousConsumption, totalMeterValues);
 
-            final ConsumptionDetail consumptionDetail =
+            final var consumptionDetail =
                     calculateConsumptionDetail(consumptionPercentage, bill,
                             apartmentName, currentConsumption.getConsumptionId());
 
@@ -212,12 +212,12 @@ public class ApartmentServiceImpl implements ApartmentService {
         double totalDifference = 0;
 
         for (Map.Entry<Consumption, Consumption> entry : previousAndCurrentConsumptions.entrySet()) {
-            final Consumption currentConsumption = entry.getKey();
-            final Consumption previousConsumption = entry.getValue();
+            final var currentConsumption = entry.getKey();
+            final var previousConsumption = entry.getValue();
 
-            final double previousMeterValue =
+            final var previousMeterValue =
                     getDoubleValueFromMeterValue(previousConsumption.getMeterValue());
-            final double currentMeterValue =
+            final var currentMeterValue =
                     getDoubleValueFromMeterValue(currentConsumption.getMeterValue());
 
             totalDifference += (currentMeterValue - previousMeterValue);
@@ -241,7 +241,7 @@ public class ApartmentServiceImpl implements ApartmentService {
                 new HashMap<>();
 
         consumptions.forEach(currentConsumption -> {
-            final Consumption previousConsumption =
+            final var previousConsumption =
                     consumptionService.getPreviousConsumption(currentConsumption);
 
             previousAndCurrentConsumptions.put(currentConsumption, previousConsumption);
@@ -264,9 +264,9 @@ public class ApartmentServiceImpl implements ApartmentService {
         LOGGER.info("[CALCULATE APARTMENT DETAIL] METHOD START, APARTMENT NAME: {}",
                 apartmentName);
 
-        final ConsumptionDetail consumptionDetail = new ConsumptionDetail();
+        final var consumptionDetail = new ConsumptionDetail();
 
-        final CubicMetersDetail cubicMetersDetail =
+        final var cubicMetersDetail =
                 getCubicMetersDetail(consumptionPercentage, consumptionId, bill);
         cubicMetersDetail.setConsumptionDetail(consumptionDetail);
 
@@ -275,11 +275,11 @@ public class ApartmentServiceImpl implements ApartmentService {
         final double m3ResidentialBasicSuperior =
                 cubicMetersDetail.getM3ResidentialBasicSuperior();
 
-        final AcueductoDetail acueductoDetail =
+        final var acueductoDetail =
                 getAcueductoDetail(m3ResidentialBasic, m3ResidentialBasicSuperior, bill, consumptionId);
         acueductoDetail.setConsumptionDetail(consumptionDetail);
 
-        final AlcantarilladoDetail alcantarilladoDetail =
+        final var alcantarilladoDetail =
                 getAlcantarilladoDetail(m3ResidentialBasic, m3ResidentialBasicSuperior, bill, consumptionId);
         alcantarilladoDetail.setConsumptionDetail(consumptionDetail);
 
@@ -315,7 +315,7 @@ public class ApartmentServiceImpl implements ApartmentService {
      */
     private CubicMetersDetail getCubicMetersDetail(double consumptionPercentage, int consumptionId,
                                                    Bill bill) {
-        final CubicMetersDetail cubicMetersDetail = new CubicMetersDetail();
+        final var cubicMetersDetail = new CubicMetersDetail();
 
         final double m3ResidentialBasic =
                 bill.getM3RsdBsc() * (consumptionPercentage / 100);
@@ -361,7 +361,7 @@ public class ApartmentServiceImpl implements ApartmentService {
         LOGGER.info("[GET ALCANTARILLADO DETAIL] METHOD START, CONSUMPTION ID: {}",
                 consumptionId);
 
-        final AlcantarilladoDetail detail = new AlcantarilladoDetail();
+        final var detail = new AlcantarilladoDetail();
 
         detail.setConsumptionId(consumptionId);
         detail.setResidentialValue(0.1d * bill.getAlcFijoResd());
@@ -386,7 +386,7 @@ public class ApartmentServiceImpl implements ApartmentService {
                                                Bill bill, int consumptionId) {
         LOGGER.info("[GET ACUEDUCTO DETAIL] METHOD START");
 
-        final AcueductoDetail detail = new AcueductoDetail();
+        final var detail = new AcueductoDetail();
 
         detail.setConsumptionId(consumptionId);
         detail.setResidentialValue(0.1d * bill.getAcueFijoResd());
@@ -411,9 +411,9 @@ public class ApartmentServiceImpl implements ApartmentService {
                                                   double totalMeterValues) {
         LOGGER.info("[CALCULATE CONSUMPTION PERCENTAGE] METHOD START");
 
-        final double previousMeterValue =
+        final var previousMeterValue =
                 getDoubleValueFromMeterValue(previousConsumption.getMeterValue());
-        final double currentMeterValue =
+        final var currentMeterValue =
                 getDoubleValueFromMeterValue(currentConsumption.getMeterValue());
 
         final double percentage =

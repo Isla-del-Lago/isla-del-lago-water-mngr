@@ -24,12 +24,12 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public CreateBillRequestResponseDto createBill(CreateBillRequestBodyDto createBillRequestBodyDto) {
-        final String methodFormatName = "[CREATE BILL]";
+        final var methodFormatName = "[CREATE BILL]";
         LOGGER.info(methodFormatName + " METHOD START, CREATE BILL REQUEST DTO: {}",
                 JacksonUtils.getJsonStringFromObject(createBillRequestBodyDto));
 
-        final Bill bill = mapBill(createBillRequestBodyDto);
-        final String billDate = billRepository.save(bill).getBillDate();
+        final var bill = mapBill(createBillRequestBodyDto);
+        final var billDate = billRepository.save(bill).getBillDate();
 
         LOGGER.info(methodFormatName + " METHOD END, BILL DATE: {}", billDate);
 
@@ -38,16 +38,16 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public Bill getBillByBillDate(String billDate) {
-        final String methodFormatName = "[GET BILL BY BILL DATE]";
+        final var methodFormatName = "[GET BILL BY BILL DATE]";
         LOGGER.info(methodFormatName + " METHOD START, BILL DATE: {}",
                 billDate);
 
         final Optional<Bill> optionalBill =
                 billRepository.findByBillDate(billDate);
 
-        final String errorMessage =
+        final var errorMessage =
                 String.format("BILL WITH BILL DATE: %s NOT FOUND", billDate);
-        final Bill bill =
+        final var bill =
                 Utilities.validateOptionalResponse(methodFormatName, errorMessage, optionalBill);
 
         LOGGER.info(methodFormatName + " METHOD END, BILL DETAIL: {}",
@@ -58,7 +58,7 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public List<Bill> getAllBills() {
-        final String methodFormatName = "[GET ALL BILLS]";
+        final var methodFormatName = "[GET ALL BILLS]";
         LOGGER.info(methodFormatName + " METHOD START");
 
         final List<Bill> bills =
@@ -72,7 +72,7 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public void deleteBillByBillDate(String billDate) {
-        final String methodFormatName = "[DELETE BILL BY BILL DATE]";
+        final var methodFormatName = "[DELETE BILL BY BILL DATE]";
         LOGGER.info(methodFormatName + " METHOD START, BILL DATE: {}", billDate);
 
         billRepository.deleteByBillDate(billDate);
@@ -85,7 +85,7 @@ public class BillServiceImpl implements BillService {
         LOGGER.info("[GET PREVIOUS BILL] METHOD START, CURRENT BILL: {}",
                 JacksonUtils.getJsonStringFromObject(currentBill));
 
-        final Bill previousBill =
+        final var previousBill =
                 billRepository.getById(currentBill.getBillId());
 
         LOGGER.info("[GET PREVIOUS BILL] METHOD END, PREVIOUS BILL: {}",
@@ -101,10 +101,10 @@ public class BillServiceImpl implements BillService {
      * @return Bill entity created.
      */
     private Bill mapBill(CreateBillRequestBodyDto createBillRequestBodyDto) {
-        final String methodFormatName = "[MAP BILL]";
+        final var methodFormatName = "[MAP BILL]";
         LOGGER.info(methodFormatName + " METHOD START");
 
-        final Bill bill = new Bill();
+        final var bill = new Bill();
         bill.setBillDate(createBillRequestBodyDto.getBillDate());
         bill.setM3RsdBsc(createBillRequestBodyDto.getM3RsdBsc());
         bill.setM3RsdBscSup(createBillRequestBodyDto.getM3RsdBscSup());

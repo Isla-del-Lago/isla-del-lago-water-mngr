@@ -41,7 +41,7 @@ public class BillController {
     public final ResponseEntity<Bill> getBillByBillDate(@RequestParam("billDate") String billDate) {
         LOGGER.info("[GET BILL BY DATE CONTROLLER] REQUEST RECEIVED");
 
-        final Bill bill = billService.getBillByBillDate(billDate);
+        final var bill = billService.getBillByBillDate(billDate);
 
         return new ResponseEntity<>(bill, HttpStatus.OK);
     }

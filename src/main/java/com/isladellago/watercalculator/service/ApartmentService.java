@@ -1,10 +1,8 @@
 package com.isladellago.watercalculator.service;
 
 import com.isladellago.watercalculator.dto.consumptiondetail.ConsumptionDetailResponse;
-import com.isladellago.watercalculator.model.consumptiondetail.ConsumptionDetail;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ApartmentService {
 

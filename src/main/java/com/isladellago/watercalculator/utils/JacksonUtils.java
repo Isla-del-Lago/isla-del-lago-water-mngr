@@ -14,6 +14,10 @@ public final class JacksonUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(JacksonUtils.class);
     private static ObjectMapper objectMapper = new ObjectMapper();
 
+    private JacksonUtils() {
+        // Empty constructor to avoid class instantiation
+    }
+
     /**
      * This method returns a Json String from the given object.
      *

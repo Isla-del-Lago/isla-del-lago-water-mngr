@@ -27,7 +27,7 @@ public class ConsumptionServiceImpl implements ConsumptionService {
         LOGGER.info("[CREATE CONSUMPTION] METHOD START, CREATE CONSUMPTION BODY DTO: {}",
                 JacksonUtils.getJsonStringFromObject(consumptionRequestBodyDto));
 
-        final Consumption consumption = mapConsumption(consumptionRequestBodyDto);
+        final var consumption = mapConsumption(consumptionRequestBodyDto);
         final Integer consumptionId = consumptionRepository.save(consumption).getConsumptionId();
 
         LOGGER.info("[CREATE CONSUMPTION] METHOD END, CONSUMPTION ID: {}", consumptionId);
@@ -49,13 +49,13 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 
     @Override
     public Consumption getConsumptionById(Integer id) {
-        final String methodFormatName = "[GET CONSUMPTION BY ID]";
+        final var methodFormatName = "[GET CONSUMPTION BY ID]";
         LOGGER.info(methodFormatName + " METHOD START, CONSUMPTION ID: {}", id);
 
         final Optional<Consumption> consumptionOptional = consumptionRepository.findById(id);
 
-        final String errorMessage = String.format("CONSUMPTION WITH ID: %d NOT FOUND", id);
-        final Consumption consumption =
+        final var errorMessage = String.format("CONSUMPTION WITH ID: %d NOT FOUND", id);
+        final var consumption =
                 Utilities.validateOptionalResponse(methodFormatName, errorMessage, consumptionOptional);
 
         LOGGER.info(methodFormatName + " METHOD END, CONSUMTPION: {}",
@@ -66,13 +66,13 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 
     @Override
     public List<Consumption> getConsumptionsByBillDate(String billDate) {
-        final String methodFormatName = "[GET CONSUMPTIONS BY BILL DATE]";
+        final var methodFormatName = "[GET CONSUMPTIONS BY BILL DATE]";
         LOGGER.info(methodFormatName + " METHOD START, BILL DATE: {}", billDate);
 
         final Optional<List<Consumption>> optionalConsumptionList =
                 consumptionRepository.findAllByBillDate(billDate);
 
-        final String errorMessage = String.format("NO CONSUMPTIONS FOUND FOR BILL DATE: %s", billDate);
+        final var errorMessage = String.format("NO CONSUMPTIONS FOUND FOR BILL DATE: %s", billDate);
         final List<Consumption> consumptions =
                 Utilities.validateOptionalResponse(methodFormatName, errorMessage, optionalConsumptionList);
 
@@ -84,13 +84,13 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 
     @Override
     public List<Consumption> getConsumptionsByApartmentName(String apartmentName) {
-        final String methodFormatName = "[GET CONSUMPTIONS BY APARTMENT NAME]";
+        final var methodFormatName = "[GET CONSUMPTIONS BY APARTMENT NAME]";
         LOGGER.info(methodFormatName + " METHOD START, APARTMENT NAME: {}", apartmentName);
 
         final Optional<List<Consumption>> optionalConsumptionList =
                 consumptionRepository.findAllByApartmentName(apartmentName);
 
-        final String errorMessage = String.format("NO CONSUMPTIONS FOUND FOR APARTMENT NAME: %s",
+        final var errorMessage = String.format("NO CONSUMPTIONS FOUND FOR APARTMENT NAME: %s",
                 apartmentName);
         final List<Consumption> consumptions =
                 Utilities.validateOptionalResponse(methodFormatName, errorMessage, optionalConsumptionList);
@@ -103,7 +103,7 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 
     @Override
     public void deleteConsumptionById(Integer consumptionId) {
-        final String methodFormatName = "[DELETE CONSUMPTION BY ID]";
+        final var methodFormatName = "[DELETE CONSUMPTION BY ID]";
         LOGGER.info(methodFormatName + " METHOD START, CONSUMPTION ID: {}", consumptionId);
 
         consumptionRepository.deleteById(consumptionId);
@@ -120,7 +120,7 @@ public class ConsumptionServiceImpl implements ConsumptionService {
                 consumptionRepository
                         .findAllByApartmentName(currentConsumption.getApartmentName()).get();
 
-        final Consumption previousConsumption =
+        final var previousConsumption =
                 consumptions
                         .stream()
                         .filter(consumption -> consumption
@@ -144,7 +144,7 @@ public class ConsumptionServiceImpl implements ConsumptionService {
     private Consumption mapConsumption(CreateConsumptionRequestBodyDto createConsumptionRequestBodyDto) {
         LOGGER.info("[MAP CONSUMPTION] METHOD START");
 
-        final Consumption consumption = new Consumption();
+        final var consumption = new Consumption();
         consumption.setApartmentName(createConsumptionRequestBodyDto.getApartmentName());
         consumption.setBillDate(createConsumptionRequestBodyDto.getBillDate());
         consumption.setMeterValue(createConsumptionRequestBodyDto.getMeterValue());
