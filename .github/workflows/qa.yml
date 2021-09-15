@@ -41,9 +41,13 @@ jobs:
         run: mvn -B clean verify -Dspring.profiles.active=qa org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
 
   push_docker_image_to_registry:
+    needs: build
     name: Build and publish docker image
     runs-on: ubuntu-latest
     steps:
+      - name: List files and directories
+        run: ls -lah
+
       - name: Check out the repo
         uses: actions/checkout@v2
         with:
