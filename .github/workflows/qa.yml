@@ -80,5 +80,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: johancamilo/isla-del-lago-water-mngr:latest
+          tags: johancamilol/isla-del-lago-water-mngr:latest
           labels: ${{ steps.meta.outputs.labels }}
