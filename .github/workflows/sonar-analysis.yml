@@ -32,6 +32,7 @@ jobs:
           path: |
             Dockerfile
             target
+            !*
           retention-days: 1
 
   push_docker_image_to_registry:
