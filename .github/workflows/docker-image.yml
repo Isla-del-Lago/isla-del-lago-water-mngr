@@ -10,11 +10,6 @@ jobs:
     name: Build and publish docker image
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
       - name: Download generated artifacts
         uses: actions/download-artifact@v2
         with:
