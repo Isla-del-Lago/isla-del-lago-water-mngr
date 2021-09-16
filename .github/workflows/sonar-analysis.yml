@@ -31,8 +31,6 @@ jobs:
           name: isla-del-lago-water-mngr-artifacts
           path: |
             Dockerfile
-            target
-            !*
           retention-days: 1
 
   push_docker_image_to_registry:
