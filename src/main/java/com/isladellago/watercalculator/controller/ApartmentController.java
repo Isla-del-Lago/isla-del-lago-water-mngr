@@ -22,7 +22,7 @@ public class ApartmentController {
     private ApartmentService apartmentService;
 
     @PostMapping("/apartment")
-    public final ResponseEntity<GetApartmentDetailsResponseDto> saveConsumptionDetails(
+    public final ResponseEntity<Void> saveConsumptionDetails(
             @RequestParam("billDate") String billDate) {
         LOGGER.info("[GET APARTMENT DETAILS CONTROLLER] REQUEST RECEIVED");
 
