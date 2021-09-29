@@ -2,6 +2,7 @@ package com.isladellago.watercalculator.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,9 +27,12 @@ public final class JacksonUtils {
      */
     public static final <T> String getJsonStringFromObject(T object) {
         try {
+            objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             LOGGER.error("[GET JSON STRING FROM OBJECT] JSON PARSING FAILED");
+            e.printStackTrace();
             return null;
         }
     }
