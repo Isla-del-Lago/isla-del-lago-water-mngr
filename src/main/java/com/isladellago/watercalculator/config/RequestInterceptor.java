@@ -32,12 +32,12 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request,
-                             HttpServletResponse response, Object handler){
+                             HttpServletResponse response, Object handler) {
 
         final String path = request.getRequestURI();
         final String method = request.getMethod();
 
-        LOGGER.info("[REQUESTED PATH] " + path  + " WITH METHOD: " + method);
+        LOGGER.info("[REQUESTED PATH] " + path + " WITH METHOD: " + method);
 
         final boolean isSecurePath =
                 !method.equals(UnsecurePaths.getUnsecurePaths().get(path));
@@ -57,10 +57,9 @@ public class RequestInterceptor implements HandlerInterceptor {
      * @param jwtToken JWT Token to be validated.
      */
     private void validateToken(String jwtToken) {
-        LOGGER.info("[KEY SECRET] " + keySecret);
         final Algorithm algorithm = Algorithm.HMAC256(keySecret);
 
-        LOGGER.info("[VERIFY JWT TOKEN] TOKEN TO BE VALIDATED" + jwtToken);
+        LOGGER.info("[VERIFY JWT TOKEN] TOKEN TO BE VALIDATED " + jwtToken);
 
         try {
             final JWTVerifier jwtVerifier = JWT.require(algorithm).build();
@@ -71,16 +70,19 @@ public class RequestInterceptor implements HandlerInterceptor {
         } catch (SignatureVerificationException ex) {
             LOGGER.error("[VERIFY JWT TOKEN] TOKEN SIGNATURE INVALID");
 
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "Invalid token, please review the given token");
         } catch (JWTVerificationException ex) {
             LOGGER.error("[VERIFY JWT TOKEN] ERROR VERIFYING JWT TOKEN, ERROR: {}" +
                     JacksonUtils.getJsonStringFromObject(ex));
 
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "Invalid token, please review the given token");
         } catch (NullPointerException ex) {
             LOGGER.error("[VERIFY JWT TOKEN] TOKEN HEADER IS NULL");
 
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "X-AccessToken header is empty or is missing, please review the header");
         }
     }
 }
