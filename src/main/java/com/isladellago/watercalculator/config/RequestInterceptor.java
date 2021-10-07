@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RequestInterceptor implements HandlerInterceptor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RequestInterceptor.class);
+    private static final String OPTIONS_METHOD = "OPTIONS";
 
     @Value("${jwt.signature.secret}")
     private String keySecret;
@@ -42,7 +43,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         final boolean isSecurePath =
                 !method.equals(UnsecurePaths.getUnsecurePaths().get(path));
 
-        if (isSecurePath) {
+        if (!method.equals(OPTIONS_METHOD) && isSecurePath) {
             final String jwtToken = request.getHeader("X-AccessToken");
 
             validateToken(jwtToken);
