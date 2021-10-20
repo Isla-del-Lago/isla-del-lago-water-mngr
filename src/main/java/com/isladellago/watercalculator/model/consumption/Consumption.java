@@ -27,6 +27,9 @@ public final class Consumption {
     @Column(name = "value_photo_url")
     private String valuePhotoUrl;
 
+    @Column(name = "previous_consumption_value")
+    private String previousConsumptionValue;
+
     @Column(name = "creation_date")
     private Date creationDate = new Date();
 
