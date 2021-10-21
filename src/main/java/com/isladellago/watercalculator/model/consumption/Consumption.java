@@ -1,5 +1,8 @@
 package com.isladellago.watercalculator.model.consumption;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,6 +11,8 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "consumption")
+@Data
+@NoArgsConstructor
 public final class Consumption {
 
     @Id
@@ -27,54 +32,9 @@ public final class Consumption {
     @Column(name = "value_photo_url")
     private String valuePhotoUrl;
 
+    @Column(name = "previous_consumption_value")
+    private String previousConsumptionValue;
+
     @Column(name = "creation_date")
     private Date creationDate = new Date();
-
-    public Integer getConsumptionId() {
-        return consumptionId;
-    }
-
-    public void setConsumptionId(Integer consumptionId) {
-        this.consumptionId = consumptionId;
-    }
-
-    public String getApartmentName() {
-        return apartmentName;
-    }
-
-    public void setApartmentName(String apartmentName) {
-        this.apartmentName = apartmentName;
-    }
-
-    public String getBillDate() {
-        return billDate;
-    }
-
-    public void setBillDate(String billDate) {
-        this.billDate = billDate;
-    }
-
-    public String getMeterValue() {
-        return meterValue;
-    }
-
-    public void setMeterValue(String meterValue) {
-        this.meterValue = meterValue;
-    }
-
-    public String getValuePhotoUrl() {
-        return valuePhotoUrl;
-    }
-
-    public void setValuePhotoUrl(String valuePhotoUrl) {
-        this.valuePhotoUrl = valuePhotoUrl;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
 }

@@ -9,5 +9,5 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Intege
 
     Optional<List<Consumption>> findAllByBillDate(String billDate);
 
-    Optional<List<Consumption>> findAllByApartmentName(String apartmentName);
+    Optional<List<Consumption>> findAllByApartmentNameOrderByCreationDate(String apartmentName);
 }
