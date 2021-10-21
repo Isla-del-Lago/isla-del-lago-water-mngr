@@ -170,25 +170,21 @@ public class ApartmentServiceImpl implements ApartmentService {
     private void calculateAndSaveConsumptionDetails(List<Consumption> consumptions, Bill bill) {
         LOGGER.info("[CALCULATE AND SAVE CONSUMPTION DETAILS] METHOD START");
 
-        final Map<Consumption, Consumption> previousAndCurrentConsumptions =
-                getPreviousConsumptions(consumptions);
+        final double totalMeterValues = getTotalDifferenceMeterValues(consumptions);
 
-        final double totalMeterValues =
-                getTotalDifferenceMeterValues(previousAndCurrentConsumptions);
-
-        for (Map.Entry<Consumption, Consumption> entry : previousAndCurrentConsumptions.entrySet()) {
-            final var currentConsumption = entry.getKey();
-            final var previousConsumption = entry.getValue();
-
-            final var apartmentName = currentConsumption.getApartmentName();
+        for (Consumption consumption : consumptions) {
+            final var apartmentName = consumption.getApartmentName();
             LOGGER.info("[CALCULATE APARTMENT DETAILS START] APARTMENT NAME: {}", apartmentName);
 
+            final var currentMeterValue = consumption.getMeterValue();
+            final var previousMeterValue = consumption.getPreviousConsumptionValue();
+
             final double consumptionPercentage =
-                    calculateConsumptionPercentage(currentConsumption, previousConsumption, totalMeterValues);
+                    calculateConsumptionPercentage(currentMeterValue, previousMeterValue, totalMeterValues);
 
             final var consumptionDetail =
                     calculateConsumptionDetail(consumptionPercentage, bill,
-                            apartmentName, currentConsumption.getConsumptionId());
+                            apartmentName, consumption.getConsumptionId());
 
             consumptionDetailRepository.save(consumptionDetail);
         }
@@ -201,24 +197,21 @@ public class ApartmentServiceImpl implements ApartmentService {
      * between meter values from previous and current
      * consumptions.
      *
-     * @param previousAndCurrentConsumptions Map with previous and current consumptions.
+     * @param consumptions Map with previous and current consumptions.
      * @return Total difference calculated
      */
     private double getTotalDifferenceMeterValues(
-            Map<Consumption, Consumption> previousAndCurrentConsumptions) {
+            List<Consumption> consumptions) {
         LOGGER.info("[GET TOTAL DIFFERENCE METER VALUES] METHOD START, CONSUMPTIONS: {}",
-                JacksonUtils.getJsonStringFromObject(previousAndCurrentConsumptions));
+                JacksonUtils.getJsonStringFromObject(consumptions));
 
         double totalDifference = 0;
 
-        for (Map.Entry<Consumption, Consumption> entry : previousAndCurrentConsumptions.entrySet()) {
-            final var currentConsumption = entry.getKey();
-            final var previousConsumption = entry.getValue();
-
+        for (Consumption consumption : consumptions) {
             final var previousMeterValue =
-                    getDoubleValueFromMeterValue(previousConsumption.getMeterValue());
+                    getDoubleValueFromMeterValue(consumption.getPreviousConsumptionValue());
             final var currentMeterValue =
-                    getDoubleValueFromMeterValue(currentConsumption.getMeterValue());
+                    getDoubleValueFromMeterValue(consumption.getMeterValue());
 
             totalDifference += (currentMeterValue - previousMeterValue);
         }
@@ -227,27 +220,6 @@ public class ApartmentServiceImpl implements ApartmentService {
                 totalDifference);
 
         return totalDifference;
-    }
-
-    /**
-     * This method craetes a HashMap with the current consumpiton
-     * and its previous consumption.
-     *
-     * @param consumptions Current consumptions.
-     * @return Difference total as hash map.
-     */
-    private Map<Consumption, Consumption> getPreviousConsumptions(List<Consumption> consumptions) {
-        final Map<Consumption, Consumption> previousAndCurrentConsumptions =
-                new HashMap<>();
-
-        consumptions.forEach(currentConsumption -> {
-            final var previousConsumption =
-                    consumptionService.getPreviousConsumption(currentConsumption);
-
-            previousAndCurrentConsumptions.put(currentConsumption, previousConsumption);
-        });
-
-        return previousAndCurrentConsumptions;
     }
 
     /**
@@ -407,14 +379,12 @@ public class ApartmentServiceImpl implements ApartmentService {
      * @param previousConsumption Previous consumption.
      * @return Percentage calculated
      */
-    private double calculateConsumptionPercentage(Consumption currentConsumption, Consumption previousConsumption,
-                                                  double totalMeterValues) {
+    private double calculateConsumptionPercentage(String currentConsumption,
+                                                  String previousConsumption, double totalMeterValues) {
         LOGGER.info("[CALCULATE CONSUMPTION PERCENTAGE] METHOD START");
 
-        final var previousMeterValue =
-                getDoubleValueFromMeterValue(previousConsumption.getMeterValue());
-        final var currentMeterValue =
-                getDoubleValueFromMeterValue(currentConsumption.getMeterValue());
+        final var previousMeterValue = getDoubleValueFromMeterValue(previousConsumption);
+        final var currentMeterValue = getDoubleValueFromMeterValue(currentConsumption);
 
         final double percentage =
                 ((currentMeterValue - previousMeterValue) / totalMeterValues) * 100;
