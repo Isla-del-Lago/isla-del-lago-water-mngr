@@ -88,7 +88,7 @@ public class ConsumptionServiceImpl implements ConsumptionService {
         LOGGER.info(methodFormatName + " METHOD START, APARTMENT NAME: {}", apartmentName);
 
         final Optional<List<Consumption>> optionalConsumptionList =
-                consumptionRepository.findAllByApartmentName(apartmentName);
+                consumptionRepository.findAllByApartmentNameOrderByCreationDate(apartmentName);
 
         final var errorMessage = String.format("NO CONSUMPTIONS FOUND FOR APARTMENT NAME: %s",
                 apartmentName);
@@ -118,7 +118,7 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 
         final List<Consumption> consumptions =
                 consumptionRepository
-                        .findAllByApartmentName(currentConsumption.getApartmentName()).get();
+                        .findAllByApartmentNameOrderByCreationDate(currentConsumption.getApartmentName()).get();
 
         final var previousConsumption =
                 consumptions
@@ -144,10 +144,17 @@ public class ConsumptionServiceImpl implements ConsumptionService {
     private Consumption mapConsumption(CreateConsumptionRequestBodyDto createConsumptionRequestBodyDto) {
         LOGGER.info("[MAP CONSUMPTION] METHOD START");
 
+        final var apartmentConsumptions =
+                getConsumptionsByApartmentName(createConsumptionRequestBodyDto.getApartmentName());
+
+        final var previousConsumption =
+                apartmentConsumptions.get(apartmentConsumptions.size() - 1);
+
         final var consumption = new Consumption();
         consumption.setApartmentName(createConsumptionRequestBodyDto.getApartmentName());
         consumption.setBillDate(createConsumptionRequestBodyDto.getBillDate());
         consumption.setMeterValue(createConsumptionRequestBodyDto.getMeterValue());
+        consumption.setPreviousConsumptionValue(previousConsumption.getMeterValue());
         consumption.setValuePhotoUrl(createConsumptionRequestBodyDto.getValuePhotoUrl());
 
         LOGGER.info("[MAP CONSUMPTION] METHOD END, FINAL CONSUMPTION: {}",
