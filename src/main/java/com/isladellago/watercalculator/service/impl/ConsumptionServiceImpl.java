@@ -147,15 +147,18 @@ public class ConsumptionServiceImpl implements ConsumptionService {
         final var apartmentConsumptions =
                 getConsumptionsByApartmentName(createConsumptionRequestBodyDto.getApartmentName());
 
-        final var previousConsumption =
-                apartmentConsumptions.get(apartmentConsumptions.size() - 1);
-
         final var consumption = new Consumption();
         consumption.setApartmentName(createConsumptionRequestBodyDto.getApartmentName());
         consumption.setBillDate(createConsumptionRequestBodyDto.getBillDate());
         consumption.setMeterValue(createConsumptionRequestBodyDto.getMeterValue());
-        consumption.setPreviousConsumptionValue(previousConsumption.getMeterValue());
         consumption.setValuePhotoUrl(createConsumptionRequestBodyDto.getValuePhotoUrl());
+
+        if (apartmentConsumptions.size() > 0) {
+            final var previousConsumption =
+                    apartmentConsumptions.get(apartmentConsumptions.size() - 1);
+
+            consumption.setPreviousConsumptionValue(previousConsumption.getMeterValue());
+        }
 
         LOGGER.info("[MAP CONSUMPTION] METHOD END, FINAL CONSUMPTION: {}",
                 JacksonUtils.getJsonStringFromObject(consumption));
