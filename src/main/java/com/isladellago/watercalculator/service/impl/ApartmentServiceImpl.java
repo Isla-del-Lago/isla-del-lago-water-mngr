@@ -261,7 +261,7 @@ public class ApartmentServiceImpl implements ApartmentService {
         final double totalAcueductoAndAlcantarillado =
                 calculateTotalAcueductoAndAlcantarillado(acueductoDetail, alcantarilladoDetail);
         final double total =
-                totalAcueductoAndAlcantarillado + cleaning - discounts;
+                Math.round(totalAcueductoAndAlcantarillado + cleaning - discounts);
 
         consumptionDetail.setConsumptionId(consumptionId);
         consumptionDetail.setCubicMetersDetail(cubicMetersDetail);
@@ -336,9 +336,9 @@ public class ApartmentServiceImpl implements ApartmentService {
         final var detail = new AlcantarilladoDetail();
 
         detail.setConsumptionId(consumptionId);
-        detail.setResidentialValue(0.1d * bill.getAlcFijoResd());
-        detail.setResidentialBasicValue(m3ResidentialBasic * bill.getAlcRsdBsc());
-        detail.setResidentialBasicSuperiorValue(m3ResidentialBasicSuperior * bill.getAlcRsdBscSup());
+        detail.setResidentialValue(Math.round(0.1d * bill.getAlcFijoResd()));
+        detail.setResidentialBasicValue(Math.round(m3ResidentialBasic * bill.getAlcRsdBsc()));
+        detail.setResidentialBasicSuperiorValue(Math.round(m3ResidentialBasicSuperior * bill.getAlcRsdBscSup()));
 
         LOGGER.info("[GET ALCANTARILLADO DETAIL] METHOD END, DETAIL: {}",
                 JacksonUtils.getJsonStringFromObject(detail));
@@ -361,9 +361,9 @@ public class ApartmentServiceImpl implements ApartmentService {
         final var detail = new AcueductoDetail();
 
         detail.setConsumptionId(consumptionId);
-        detail.setResidentialValue(0.1d * bill.getAcueFijoResd());
-        detail.setResidentialBasicValue(m3ResidentialBasic * bill.getAcueRsdBsc());
-        detail.setResidentialBasicSuperiorValue(m3ResidentialBasicSuperior * bill.getAcueRsdBscSup());
+        detail.setResidentialValue(Math.round(0.1d * bill.getAcueFijoResd()));
+        detail.setResidentialBasicValue(Math.round(m3ResidentialBasic * bill.getAcueRsdBsc()));
+        detail.setResidentialBasicSuperiorValue(Math.round(m3ResidentialBasicSuperior * bill.getAcueRsdBscSup()));
 
         LOGGER.info("[GET ACUEDUCTO DETAIL] METHOD END, DETAIL: {}",
                 JacksonUtils.getJsonStringFromObject(detail));
