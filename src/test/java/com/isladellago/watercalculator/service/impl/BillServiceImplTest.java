@@ -1,9 +1,9 @@
 package com.isladellago.watercalculator.service.impl;
 
-import com.isladellago.watercalculator.dto.bill.CreateBillRequestBodyDto;
-import com.isladellago.watercalculator.dto.bill.CreateBillRequestResponseDto;
-import com.isladellago.watercalculator.model.bill.Bill;
-import com.isladellago.watercalculator.model.bill.BillRepository;
+import com.isladellago.watercalculator.domain.dto.bill.CreateBillRequestBodyDto;
+import com.isladellago.watercalculator.domain.dto.bill.CreateBillRequestResponseDto;
+import com.isladellago.watercalculator.domain.model.bill.Bill;
+import com.isladellago.watercalculator.domain.model.bill.BillRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

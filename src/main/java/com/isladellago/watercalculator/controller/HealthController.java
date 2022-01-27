@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/water")
+@RequestMapping("/api/v1/water")
 @CrossOrigin("*")
 public class HealthController {
 
@@ -19,8 +19,9 @@ public class HealthController {
      */
     @GetMapping("/health")
     public final ResponseEntity<String> health() {
-        final var healthMessageBody = "Is healthy";
-        return new ResponseEntity<>(healthMessageBody, HttpStatus.OK);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Service is healthy");
     }
 
 }

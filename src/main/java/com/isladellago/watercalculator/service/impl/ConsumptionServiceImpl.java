@@ -1,9 +1,9 @@
 package com.isladellago.watercalculator.service.impl;
 
-import com.isladellago.watercalculator.dto.consumption.CreateConsumptionRequestBodyDto;
-import com.isladellago.watercalculator.dto.consumption.CreateConsumptionResponseDto;
-import com.isladellago.watercalculator.model.consumption.Consumption;
-import com.isladellago.watercalculator.model.consumption.ConsumptionRepository;
+import com.isladellago.watercalculator.domain.dto.consumption.CreateConsumptionRequestBodyDto;
+import com.isladellago.watercalculator.domain.dto.consumption.CreateConsumptionResponseDto;
+import com.isladellago.watercalculator.domain.model.consumption.Consumption;
+import com.isladellago.watercalculator.domain.model.consumption.ConsumptionRepository;
 import com.isladellago.watercalculator.service.ConsumptionService;
 import com.isladellago.watercalculator.utils.JacksonUtils;
 import com.isladellago.watercalculator.utils.Utilities;
