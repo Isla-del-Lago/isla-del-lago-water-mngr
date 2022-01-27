@@ -1,9 +1,9 @@
 package com.isladellago.watercalculator.service.impl;
 
-import com.isladellago.watercalculator.dto.consumptiondetail.ConsumptionDetailResponse;
-import com.isladellago.watercalculator.model.bill.Bill;
-import com.isladellago.watercalculator.model.consumption.Consumption;
-import com.isladellago.watercalculator.model.consumptiondetail.*;
+import com.isladellago.watercalculator.domain.dto.consumptiondetail.ConsumptionDetailResponse;
+import com.isladellago.watercalculator.domain.model.bill.Bill;
+import com.isladellago.watercalculator.domain.model.consumption.Consumption;
+import com.isladellago.watercalculator.domain.model.consumptiondetail.*;
 import com.isladellago.watercalculator.service.ApartmentService;
 import com.isladellago.watercalculator.service.BillService;
 import com.isladellago.watercalculator.service.ConsumptionService;
@@ -16,7 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

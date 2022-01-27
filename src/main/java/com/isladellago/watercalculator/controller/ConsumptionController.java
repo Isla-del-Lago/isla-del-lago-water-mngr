@@ -1,8 +1,8 @@
 package com.isladellago.watercalculator.controller;
 
-import com.isladellago.watercalculator.dto.consumption.CreateConsumptionRequestBodyDto;
-import com.isladellago.watercalculator.dto.consumption.CreateConsumptionResponseDto;
-import com.isladellago.watercalculator.model.consumption.Consumption;
+import com.isladellago.watercalculator.domain.dto.consumption.CreateConsumptionRequestBodyDto;
+import com.isladellago.watercalculator.domain.dto.consumption.CreateConsumptionResponseDto;
+import com.isladellago.watercalculator.domain.model.consumption.Consumption;
 import com.isladellago.watercalculator.service.ConsumptionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

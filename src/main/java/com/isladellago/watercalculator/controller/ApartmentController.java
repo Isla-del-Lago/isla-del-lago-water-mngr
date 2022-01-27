@@ -1,6 +1,6 @@
 package com.isladellago.watercalculator.controller;
 
-import com.isladellago.watercalculator.dto.consumptiondetail.ConsumptionDetailResponse;
+import com.isladellago.watercalculator.domain.dto.consumptiondetail.ConsumptionDetailResponse;
 import com.isladellago.watercalculator.service.ApartmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

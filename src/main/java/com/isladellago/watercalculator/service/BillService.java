@@ -1,8 +1,8 @@
 package com.isladellago.watercalculator.service;
 
-import com.isladellago.watercalculator.dto.bill.CreateBillRequestBodyDto;
-import com.isladellago.watercalculator.dto.bill.CreateBillRequestResponseDto;
-import com.isladellago.watercalculator.model.bill.Bill;
+import com.isladellago.watercalculator.domain.dto.bill.CreateBillRequestBodyDto;
+import com.isladellago.watercalculator.domain.dto.bill.CreateBillRequestResponseDto;
+import com.isladellago.watercalculator.domain.model.bill.Bill;
 
 import java.util.List;
 

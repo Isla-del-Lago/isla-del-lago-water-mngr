@@ -1,6 +1,6 @@
 package com.isladellago.watercalculator.service;
 
-import com.isladellago.watercalculator.dto.consumptiondetail.ConsumptionDetailResponse;
+import com.isladellago.watercalculator.domain.dto.consumptiondetail.ConsumptionDetailResponse;
 
 import java.util.List;
 
